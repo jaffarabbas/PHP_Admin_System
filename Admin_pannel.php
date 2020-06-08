@@ -39,44 +39,19 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li class="text-center">
-                        <img src="../assets/img/find_user.png" class="user-image img-responsive" />
+                        <img src="assets2/img/find_user.png" class="user-image img-responsive" />
                     </li>
-
-
                     <li>
                         <a class="active-menu" href="index.html"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-users fa-3x"></i>Staff<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#" onclick="mypop()">Insert Staff</a>
-                            </li>
-                            <li>
-                                <a href="#">View Staff</a>
-                            </li>
-                            <li>
-                                <a href="#">Search Staff</a>
-                            </li>
-                        </ul>
+                        <a  onclick="mypop()"><i class="fa fa-users fa-3x"></i>Exam Insertion<span class="fa arrow"></span></a>
                     </li>
                     <li>
-                        <a href="tab-panel.html"><i class="fa fa-user fa-3x"></i>Students<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#" onclick="mypop2()">Insert Students</a>
-                            </li>
-                            <li>
-                                <a href="#">View Students</a>
-                            </li>
-                            <li>
-                                <a href="#">Search Studnets</a>
-                            </li>
-                        </ul>
+                        <a  onclick="mypop2()"><i class="fa fa-user fa-3x"></i>Result<span class="fa arrow"></span></a>
                     </li>
-                  
                     <li>
-                        <a href="blank.html"><i class="fa fa-square-o fa-3x"></i> Blank Page</a>
+                        <a href=""><i class="fa fa-square-o fa-3x"></i> Blank Page</a>
                     </li>
                 </ul>
 
@@ -127,7 +102,7 @@
                             <section class="sec_stu__insert">
                                 <form class="form_stu_inser">
                                     <label class="Ins_stud text-center">Insert Students</label><br><br>
-                                    <label>Name</label>
+                                    <label></label>
                                     <input type="text" class="name2 form-control" id="name_reg2"/>
                                     <label>Id</label>
                                     <input type="text" class="Id2 form-control" id="ID_reg2"/>
