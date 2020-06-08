@@ -67,33 +67,49 @@
                         <h5>Welcome Jhon Deo , Love to see you back. </h5>
                         <div class="Insert_main" id="staff_inser">
                             <section class="sec_insert">
-                                <form class="form_inser">
-                                    <label class="Ins_staff text-center">Insert Staff</label><br><br>
-                                    <label>Name</label>
-                                    <input type="text" class="name form-control" id="name_reg"/>
-                                    <label>Id</label>
-                                    <input type="text" class="Id form-control" id="ID_reg"/>
-                                    <label>Email</label>
-                                    <input type="email" class="email form-control" id="email_reg"/>
-                                    <label>Number</label>
-                                    <input type="tel" class="tele form-control" id="tele_reg"/>
-                                    <label>Qualification</label>
-                                    <input type="text" class="Qual form-control" id="Qual_reg"/>
-                                    <label>Class</label>
-                                    <input type="text" class="cla form-control" id="cla_reg"/>
-                                    <label>Subject</label>
-                                    <input type="text" class="sub form-control" id="sub_reg"/>
-                                    <label>Gender</label><br>
-                                    <input type="radio" id="male" name="gender" value="male">
-                                    <label for="male">Male</label><br>
-                                    <input type="radio" id="female" name="gender" value="female">
-                                    <label for="female">Female</label><br>
-                                    <input type="radio" id="other" name="gender" value="other">
-                                    <label for="other">Other</label><br>
-                                    <label for="pwd">Password</label>
-                                    <input type="password" id="pwd" name="pwd" class="form-control">
-                                    <label for="pwd">Confirm Password</label>
-                                    <input type="password" id="pwd" name="pwd" class="form-control"><br>
+                                <form class="form_inser" method="post" action="">
+                                      <label class="Ins_staff text-center">Exam Question</label><br><br>
+                                      <div class="form-group">
+                                      <label for="exampleFormControlSelect1">Example select</label>
+                                      <select class="form-control" id="Seleter_for_Example" name="Select_Cource">
+                                      <option>1</option>
+                                      <option>2</option>
+                                      <option>3</option>
+                                      <option>4</option>
+                                      <option>5</option>
+                                      </select>
+                                      </div>
+                                      <div class="form-group">
+                                      <label for="">Question</label>
+                                      <textarea class="form-control" id="Question_insert" name="Question" rows="3"></textarea>
+                                      </div>
+                                      <div class="form-group">
+                                      <label for="">Option 1</label>
+                                      <input class="form-control" id="option_1" name="option1" >
+                                      </div>
+                                      <div class="form-group">
+                                      <label for="">Option 2</label>
+                                      <input class="form-control" id="option_2" name="option2" >
+                                      </div>
+                                      <div class="form-group">
+                                      <label for="">Option 3</label>
+                                      <input class="form-control" id="option_3" name="option3" >
+                                      </div>
+                                      <div class="form-group">
+                                      <label for="">Option 4</label>
+                                      <input class="form-control" id="option_4" name="option4" >
+                                      </div>
+                                      <div class="form-group" onclick="gr()">
+                                      <label for="">Answers</label>
+                                      <select class="form-control" id="" name="Answer" >
+                                      <option id="Selecter_1"></option>
+                                      <option id="Selecter_2"></option>
+                                      <option id="Selecter_3"></option>
+                                      <option id="Selecter_4"></option>
+                                      </select>
+                                      </div>
+
+                                      
                                     <input type="submit" class="btn btn-warning form-control" id="btn_reg"/>
                                  </form>
                             </section>
@@ -162,6 +178,26 @@ function mypop2()
   } else {
     x.style.display ="none";
   } 
+}
+
+
+function gr()
+{
+    var var_for_selecter_1 =  document.getElementById('option_1').value; 
+            
+    document.getElementById('Selecter_1').innerHTML = var_for_selecter_1; 
+
+    var var_for_selecter_1 =  document.getElementById('option_2').value; 
+            
+    document.getElementById('Selecter_2').innerHTML = var_for_selecter_1; 
+
+    var var_for_selecter_1 =  document.getElementById('option_3').value; 
+            
+    document.getElementById('Selecter_3').innerHTML = var_for_selecter_1; 
+
+    var var_for_selecter_1 =  document.getElementById('option_4').value; 
+            
+    document.getElementById('Selecter_4').innerHTML = var_for_selecter_1; 
 }
 </script>
 

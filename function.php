@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 define('DB_SERVER','localhost');
 define('DB_USERNAME','root');
 define('DB_PASSWORD','');
@@ -13,14 +11,15 @@ $conn = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_NAME);
 if($conn == false){
     dir('Error : Connot Connect');
 }
-
-if (isset($_POST['login_btn'])) {
+//calling login function
+if(isset($_POST['login_btn'])) {
     login();
 }
 
-//function for lofin
+Question_insertion();
 
-function Login(){
+//function for login
+function login(){
     if(isset($_SESSION['email_id'])){
         header("location: Admin_pannel.php");
         exit;
@@ -42,16 +41,43 @@ function Login(){
         }
 
         if(empty($error)){
-            $sql ="SELECT * from login where email_id = '$email_id'and password = '$password'";
+            $sql ="SELECT * from login where email_id = '$email_id' and password = '$password'";
 
             $row = mysql_fetch_array($sql);
             if($row['email_id'] == $email_id && $row['password'] ==$password){
-                header("location: Admin_pannel.php");
+                header("location: logout.php");
             }
             else{
                 echo "Login faild";
-            }
-            
+            }          
+        }
+    }
+}
+function Question_insertion(){
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+        $Select_Cource = $_POST['Select_Cource'];
+        $Question = $_POST['Question'];
+        $Option1 = $_POST['option1'];
+        $Option2 = $_POST['option2'];
+        $Option3 = $_POST['option3'];
+        $Option4 = $_POST['option4'];
+        $Answer = $_POST['Answer'];
+
+        $sql = "INSERT INTO `questioncrud` (`Select_Cource`,`Question`,`option1`,`option2`,`option3`,`option4`,`Answer`) VALUES ('$Select_Cource''$Question','$Option1','$Option2','$Option3','$Option4','$Answer')";
+        $result = mysqli_query($conn,$sql);
+        
+        if($result){
+             $insert  = true;
+             echo  '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Data entered Successfully</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>';
+        }
+        else{
+            echo "Error". mysqli_error($conn);
         }
     }
 }
