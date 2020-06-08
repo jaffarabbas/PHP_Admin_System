@@ -1,3 +1,4 @@
+<?php include('function.php');?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,7 +68,7 @@
                         <h5>Welcome Jhon Deo , Love to see you back. </h5>
                         <div class="Insert_main" id="staff_inser">
                             <section class="sec_insert">
-                                <form class="form_inser" method="post" action="">
+                                <form class="form_inser" method="POST" action="/PHP_ADMIN_SYSTEM/Admin_pannel.php">
                                       <label class="Ins_staff text-center">Exam Question</label><br><br>
                                       <div class="form-group">
                                       <label for="exampleFormControlSelect1">Example select</label>
@@ -110,7 +111,7 @@
                                       </div>
 
                                       
-                                    <input type="submit" class="btn btn-warning form-control" id="btn_reg"/>
+                                    <input type="submit" class="btn btn-warning form-control" name="exam_inset" id="btn_reg"/>
                                  </form>
                             </section>
                         </div>

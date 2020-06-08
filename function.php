@@ -15,8 +15,12 @@ if($conn == false){
 if(isset($_POST['login_btn'])) {
     login();
 }
+// if(isset($_POST['exam_inset'])) {
+    
+//     Question_insertion();
+// }
+    
 
-Question_insertion();
 
 //function for login
 function login(){
@@ -53,7 +57,14 @@ function login(){
         }
     }
 }
-function Question_insertion(){
+
+    if($conn == false){
+        dir('Error : Connot Connect');
+    }
+    else{
+        echo "dsfs";
+    }
+   
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         $Select_Cource = $_POST['Select_Cource'];
@@ -79,6 +90,6 @@ function Question_insertion(){
         else{
             echo "Error". mysqli_error($conn);
         }
-    }
+    
 }
 ?>
