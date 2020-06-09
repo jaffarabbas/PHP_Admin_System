@@ -15,11 +15,7 @@ if($conn == false){
 if(isset($_POST['login_btn'])) {
     login();
 }
-// if(isset($_POST['exam_inset'])) {
-    
-//     Question_insertion();
-// }
-    
+
 
 
 //function for login
@@ -49,7 +45,7 @@ function login(){
 
             $row = mysql_fetch_array($sql);
             if($row['email_id'] == $email_id && $row['password'] ==$password){
-                header("location: logout.php");
+                header("location: Admin_pannel.php");
             }
             else{
                 echo "Login faild";
@@ -57,6 +53,7 @@ function login(){
         }
     }
 }
+function Questtion_insertion(){
 
     if($conn == false){
         dir('Error : Connot Connect');
@@ -90,6 +87,7 @@ function login(){
         else{
             echo "Error". mysqli_error($conn);
         }
-    
+ 
+}
 }
 ?>

@@ -1,4 +1,46 @@
-<?php include('function.php');?>
+<?php
+$insert  = false;
+$servername = "localhost";
+$username = "root";
+$passsword = "";   
+$database = "javalogin";
+$conn = mysqli_connect($servername,$username,$passsword,$database);   
+//check connection
+if($conn == false){
+    dir('Error : Connot Connect');
+}
+else{
+    echo "dsfs";
+}
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+    $Select_Cource = $_POST['Select_Cource'];
+    $Question = $_POST['Question'];
+    $Option1 = $_POST['option1'];
+    $Option2 = $_POST['option2'];
+    $Option3 = $_POST['option3'];
+    $Option4 = $_POST['option4'];
+    $Answer =  $_POST['Answer'];
+
+    $sql = "INSERT INTO `questioncurd` (`Id`, `Select_Cource`, `Question`, `option1`, `option2`, `option3`, `option4`, `Answer`) VALUES (NULL, '$Select_Cource', '$Question', '$Option1', '$Option2', '$Option3', '$Option4', '$Answer');";
+    $result = mysqli_query($conn,$sql);
+    
+    if($result){
+         $insert  = true;
+         echo  '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Data entered Successfully</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>';
+    }
+    else{
+        echo "Error". mysqli_error($conn);
+    }
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +85,7 @@
                         <img src="assets2/img/find_user.png" class="user-image img-responsive" />
                     </li>
                     <li>
-                        <a class="active-menu" href="index.html"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
+                        <a class="active-menu" onclick="mypop3()"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
                     </li>
                     <li>
                         <a  onclick="mypop()"><i class="fa fa-users fa-3x"></i>Exam Insertion<span class="fa arrow"></span></a>
@@ -66,11 +108,12 @@
                     <div class="col-md-12">
                         <h2>Admin Dashboard</h2>
                         <h5>Welcome Jhon Deo , Love to see you back. </h5>
+                        <section class="page_for_dashboared" id="dashboared"></section>
                         <div class="Insert_main" id="staff_inser">
                             <section class="sec_insert">
-                                <form class="form_inser" method="POST" action="/PHP_ADMIN_SYSTEM/Admin_pannel.php">
+                                <form class="form_insert" action="Admin_pannel.php" method="POST">
                                       <label class="Ins_staff text-center">Exam Question</label><br><br>
-                                      <div class="form-group">
+                                      
                                       <label for="exampleFormControlSelect1">Example select</label>
                                       <select class="form-control" id="Seleter_for_Example" name="Select_Cource">
                                       <option>1</option>
@@ -79,27 +122,27 @@
                                       <option>4</option>
                                       <option>5</option>
                                       </select>
-                                      </div>
-                                      <div class="form-group">
+                                     
+                                      
                                       <label for="">Question</label>
                                       <textarea class="form-control" id="Question_insert" name="Question" rows="3"></textarea>
-                                      </div>
-                                      <div class="form-group">
+                                     
+                                      
                                       <label for="">Option 1</label>
                                       <input class="form-control" id="option_1" name="option1" >
-                                      </div>
-                                      <div class="form-group">
+                                     
+                                      
                                       <label for="">Option 2</label>
                                       <input class="form-control" id="option_2" name="option2" >
-                                      </div>
-                                      <div class="form-group">
+                                     
+                                      
                                       <label for="">Option 3</label>
                                       <input class="form-control" id="option_3" name="option3" >
-                                      </div>
-                                      <div class="form-group">
+                                     
+                                      
                                       <label for="">Option 4</label>
                                       <input class="form-control" id="option_4" name="option4" >
-                                      </div>
+                                     
                                       <div class="form-group" onclick="gr()">
                                       <label for="">Answers</label>
                                       <select class="form-control" id="" name="Answer" >
@@ -108,10 +151,8 @@
                                       <option id="Selecter_3"></option>
                                       <option id="Selecter_4"></option>
                                       </select>
-                                      </div>
-
-                                      
-                                    <input type="submit" class="btn btn-warning form-control" name="exam_inset" id="btn_reg"/>
+                                                                          
+                                    <input type="submit" class="btn btn-warning form-control"  id="btn_reg"/>
                                  </form>
                             </section>
                         </div>
@@ -181,6 +222,18 @@ function mypop2()
   } 
 }
 
+function mypop3(){
+    var a = document.getElementById("dashboared");
+    var x = document.getElementById("Student_insert");
+    var y = document.getElementById("staff_inser");
+  if (a.style.display === "none") {
+    a.style.display = "block";
+    x.style.display = "none";
+    y.style.display ="none";
+  } else {
+    a.style.display ="none";
+  } 
+}
 
 function gr()
 {
