@@ -9,9 +9,6 @@ $conn = mysqli_connect($servername,$username,$passsword,$database);
 if($conn == false){
     dir('Error : Connot Connect');
 }
-else{
-    echo "dsfs";
-}
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
@@ -24,20 +21,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $Answer =  $_POST['Answer'];
 
     $sql = "INSERT INTO `questioncurd` (`Id`, `Select_Cource`, `Question`, `option1`, `option2`, `option3`, `option4`, `Answer`) VALUES (NULL, '$Select_Cource', '$Question', '$Option1', '$Option2', '$Option3', '$Option4', '$Answer');";
-    $result = mysqli_query($conn,$sql);
-    
-    if($result){
-         $insert  = true;
-         echo  '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Data entered Successfully</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>';
-    }
-    else{
-        echo "Error". mysqli_error($conn);
-    }
+    $result = mysqli_query($conn,$sql);   
 
 }
 ?>
@@ -57,11 +41,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" > -->
 
      <!-- BOOTSTRAP STYLES-->
+    
      <link href="assets2/css/css.css" rel="stylesheet" />
      <link href="assets2/css/bootstrap.css" rel="stylesheet" />
      <link href="assets2/css/custom.css" rel="stylesheet" />
      <link href="assets2/css/font-awesome.css" rel="stylesheet" />
+ <style>
 
+ </style>
 </head>
 <body>
     <div id="wrapper">
@@ -97,23 +84,32 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         <a href=""><i class="fa fa-square-o fa-3x"></i> Blank Page</a>
                     </li>
                 </ul>
-
             </div>
-
         </nav>
+        
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
                         <h2>Admin Dashboard</h2>
-                        <h5>Welcome Jhon Deo , Love to see you back. </h5>
-                        <section class="page_for_dashboared" id="dashboared"></section>
-                        <div class="Insert_main" id="staff_inser">
+                        <h5>Welcome <?php$_SESSION['email_id']?> , Love to see you back. </h5>
+                       
+                        <section class="page_for_dashboared" id="dashboared">
+                        <?php
+                        if($result){
+                            $insert  = true;
+                            echo  '<div><h4 style="color : green">Question Inserted !!</h4></div>';
+                        }
+                        else{
+                           echo "Error". mysqli_error($conn);
+                        }
+                        ?>
+                        </section>
+                        <div class="Insert_main" id="staff_inser" style="display=none">
                             <section class="sec_insert">
-                                <form class="form_insert" action="Admin_pannel.php" method="POST">
+                                <form class="form_insert" action="Admin_pannel.php" method="POST" style="display=none">
                                       <label class="Ins_staff text-center">Exam Question</label><br><br>
-                                      
                                       <label for="exampleFormControlSelect1">Example select</label>
                                       <select class="form-control" id="Seleter_for_Example" name="Select_Cource">
                                       <option>1</option>
@@ -121,9 +117,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                       <option>3</option>
                                       <option>4</option>
                                       <option>5</option>
-                                      </select>
-                                     
-                                      
+                                      </select>                     
                                       <label for="">Question</label>
                                       <textarea class="form-control" id="Question_insert" name="Question" rows="3"></textarea>
                                      
@@ -156,39 +150,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                  </form>
                             </section>
                         </div>
-                        <div class="Insert_Student" id="Student_insert">
-                            <section class="sec_stu__insert">
-                                <form class="form_stu_inser">
-                                    <label class="Ins_stud text-center">Insert Students</label><br><br>
-                                    <label></label>
-                                    <input type="text" class="name2 form-control" id="name_reg2"/>
-                                    <label>Id</label>
-                                    <input type="text" class="Id2 form-control" id="ID_reg2"/>
-                                    <label>Email</label>
-                                    <input type="email" class="email2 form-control" id="email_reg2"/>
-                                    <label>age</label>
-                                    <input type="number" class="Qual2 form-control" id="Qual_reg2"/>
-                                    <label>Phone</label>
-                                    <input type="tel" class="phone2 form-control" id="phone_reg2"/>
-                                    <label>Class</label>
-                                    <input type="text" class="cla2 form-control" id="cla_reg2"/>
-                                    <label>Subject</label>
-                                    <input type="text" class="sub2 form-control" id="sub_reg"/>
-                                    <label>Gender</label><br>
-                                    <input type="radio" id="male2" name="gender" value="male">
-                                    <label for="male">Male</label><br>
-                                    <input type="radio" id="female2" name="gender" value="female">
-                                    <label for="female">Female</label><br>
-                                    <input type="radio" id="other2" name="gender" value="other">
-                                    <label for="other">Other</label><br>
-                                    <label for="pwd">Password</label>
-                                    <input type="password" id="pwd2" name="pwd" class="form-control">
-                                    <label for="pwd">Confirm Password</label>
-                                    <input type="password" id="pwd2" name="pwd" class="form-control"><br>
-                                    <input type="submit" class="btn btn-warning form-control" id="btn_reg2"/>
-                                 </form>
-                            </section>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -265,5 +227,7 @@ function gr()
 <script src="assets2/js/custom.js"></script>
 <script src="assets2/js/jquery-1.10.2.js"></script>
 <script src="assets2/js/jquery.metisMenu.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </html>
