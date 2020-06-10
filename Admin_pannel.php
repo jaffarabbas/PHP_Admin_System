@@ -1,7 +1,7 @@
 <!-- 1 -->
 <?php 
 
-
+// include('function.php');
     $insert  = false;
     $servername = "localhost";
     $username = "root";
@@ -27,7 +27,23 @@
             
             $result = mysqli_query($conn,$sql); 
     
-    }
+        }
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        
+            $Feild = $_POST['Field'];
+            $Pincode = $_POST['Pincode'];
+            $Quiz = $_POST['QuizTime'];
+            $Attemps = $_POST['QuizNoofAttemp'];
+
+        
+            $sql = "INSERT INTO `subjectlist` (`id`, `Field`, `Pincode`, `QuizTime`, `QuizNoofAttemp`) VALUES (NULL, '$Feild', '$Pincode', '$Quiz', ' $Attemps');";
+            
+            $result = mysqli_query($conn,$sql); 
+    
+        }
+
+
 
 ?>
 <!DOCTYPE html>
@@ -184,34 +200,24 @@
     }  ?>
   </tbody>
 </table>
-                       </section>
-
+</section>   
 
 <section id="insert_major">
-<form class="form_insert" action="Admin_pannel.php" method="POST" style="display=none">                   
-                                      <label for="">Feild Name</label>
-                                      <textarea class="form-control" id="Question_insert" name="Field" rows="3"></textarea>
-                                     
-                                      
-                                      <label for="">Pincode</label>
-                                      <input class="form-control" id="Pincode" name="option1" >
-                                     
-                                      
-                                      <label for="">Quiz Time</label>
-                                      <input class="form-control" id="QuizTime" name="option2" >
-                                      
-                                      <label for="">Number of Attemps</label>
-                                      <input class="form-control" id="option_4" name="option4" >
-                                     
-                                                 
-                                    <input type="submit" class="btn btn-warning form-control"  id="btn_reg" name="feild_insert"/>
-                                 </form>
-                            </section>
+	<form class="form_insert" action="Admin_pannel.php" method="POST" >
+		<label for="">Feild Name</label>
+		<textarea class="form-control" id="Question_insert"  rows="2" name="Field"></textarea>
+		<label for="">Pincode</label>
+		<input class="form-control" id="Pincode"  name="Pincode">
+		<label for="">Quiz Time</label>
+		<input class="form-control" id="QuizTime"  name="QuizTime">
+		<label for="">Number of Attemps</label>
+		<input class="form-control" id="option_4"  name="QuizNoofAttemp">
+        <br>
+		<input type="submit" class="btn btn-warning form-control"  id="btn_reg" name="feild_insert_2"/>
+		</form>
 </section>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
                 <!-- /. ROW  -->
 
 <!-- Insert major -->

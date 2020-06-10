@@ -2,15 +2,17 @@
 
 //calling login function
 if(isset($_POST['login_btn'])) {
+	
     login();
-    include_once('Admin_pannel.php');
+	question();
 }
 
 
 
 //function for login
 function login(){
-    define('DB_SERVER','localhost');
+
+define('DB_SERVER','localhost');
 define('DB_USERNAME','root');
 define('DB_PASSWORD','');
 define('DB_NAME','javalogin');
@@ -56,6 +58,53 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 		}          
 	}
 }
+}
+
+
+
+function question(){
+	
+    $insert  = false;
+    $servername = "localhost";
+    $username = "root";
+    $passsword = "";   
+    $database = "javalogin";
+    $conn = mysqli_connect($servername,$username,$passsword,$database);   
+    //check connection
+    
+        if($conn == false){
+            dir('Error : Connot Connect');
+        }
+        
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        
+            $Question = $_POST['Question'];
+            $Option1 = $_POST['option1'];
+            $Option2 = $_POST['option2'];
+            $Option3 = $_POST['option3'];
+            $Option4 = $_POST['option4'];
+            $Answer =  $_POST['Answer'];
+        
+            $sql = "INSERT INTO `questioncurd` (`Id`, `Question`, `option1`, `option2`, `option3`, `option4`, `Answer`) VALUES (NULL, '$Question', '$Option1', '$Option2', '$Option3', '$Option4', '$Answer')";
+            
+            $result = mysqli_query($conn,$sql); 
+    
+        }
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        
+            $Feild = $_POST['Field'];
+            $Pincode = $_POST['Pincode'];
+            $Quiz = $_POST['QuizTime'];
+            $Attemps = $_POST['QuizNoofAttemp'];
+
+        
+            $sql = "INSERT INTO `subjectlist` (`id`, `Field`, `Pincode`, `QuizTime`, `QuizNoofAttemp`) VALUES (NULL, '$Feild', '$Pincode', '$Quiz', ' $Attemps');";
+            
+            $result = mysqli_query($conn,$sql); 
+    
+        }
 
 }
+
 ?>
