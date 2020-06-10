@@ -1,29 +1,34 @@
-<?php
-$insert  = false;
-$servername = "localhost";
-$username = "root";
-$passsword = "";   
-$database = "javalogin";
-$conn = mysqli_connect($servername,$username,$passsword,$database);   
-//check connection
-if($conn == false){
-    dir('Error : Connot Connect');
-}
+<!-- 1 -->
+<?php 
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-    $Select_Cource = $_POST['Select_Cource'];
-    $Question = $_POST['Question'];
-    $Option1 = $_POST['option1'];
-    $Option2 = $_POST['option2'];
-    $Option3 = $_POST['option3'];
-    $Option4 = $_POST['option4'];
-    $Answer =  $_POST['Answer'];
+    $insert  = false;
+    $servername = "localhost";
+    $username = "root";
+    $passsword = "";   
+    $database = "javalogin";
+    $conn = mysqli_connect($servername,$username,$passsword,$database);   
+    //check connection
+    
+        if($conn == false){
+            dir('Error : Connot Connect');
+        }
+        
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        
+            $Question = $_POST['Question'];
+            $Option1 = $_POST['option1'];
+            $Option2 = $_POST['option2'];
+            $Option3 = $_POST['option3'];
+            $Option4 = $_POST['option4'];
+            $Answer =  $_POST['Answer'];
+        
+            $sql = "INSERT INTO `questioncurd` (`Id`, `Question`, `option1`, `option2`, `option3`, `option4`, `Answer`) VALUES (NULL, '$Question', '$Option1', '$Option2', '$Option3', '$Option4', '$Answer')";
+            
+            $result = mysqli_query($conn,$sql); 
+    
+    }
 
-    $sql = "INSERT INTO `questioncurd` (`Id`, `Select_Cource`, `Question`, `option1`, `option2`, `option3`, `option4`, `Answer`) VALUES (NULL, '$Select_Cource', '$Question', '$Option1', '$Option2', '$Option3', '$Option4', '$Answer');";
-    $result = mysqli_query($conn,$sql);   
-
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,6 +51,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
      <link href="assets2/css/bootstrap.css" rel="stylesheet" />
      <link href="assets2/css/custom.css" rel="stylesheet" />
      <link href="assets2/css/font-awesome.css" rel="stylesheet" />
+     
+     <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
  <style>
 
  </style>
@@ -75,13 +82,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         <a class="active-menu" onclick="mypop3()"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
                     </li>
                     <li>
+                        <a onclick="mypop4()"><i class="fa fa-book fa-3x"></i>Insert Major<span class="fa arrow"></span></a>
+                    </li>
+                    <li>
                         <a  onclick="mypop()"><i class="fa fa-users fa-3x"></i>Exam Insertion<span class="fa arrow"></span></a>
                     </li>
                     <li>
                         <a  onclick="mypop2()"><i class="fa fa-user fa-3x"></i>Result<span class="fa arrow"></span></a>
-                    </li>
-                    <li>
-                        <a href=""><i class="fa fa-square-o fa-3x"></i> Blank Page</a>
                     </li>
                 </ul>
             </div>
@@ -93,31 +100,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <div class="row">
                     <div class="col-md-12">
                         <h2>Admin Dashboard</h2>
-                        <h5>Welcome <?php$_SESSION['email_id']?> , Love to see you back. </h5>
-                       
+                        <h5> Welcome , Love to see you back. </h5>
+                       <!-- table show -->
                         <section class="page_for_dashboared" id="dashboared">
                         <?php
                         if($result){
                             $insert  = true;
-                            echo  '<div><h4 style="color : green">Question Inserted !!</h4></div>';
+                            if(isset($_POST['exam'])) {
+                                echo  '<div><h4 style="color : green">Question Inserted !!</h4></div>';
+                            }
                         }
                         else{
                            echo "Error". mysqli_error($conn);
                         }
                         ?>
                         </section>
-                        <div class="Insert_main" id="staff_inser" style="display=none">
+                        <div class="Insert_main" id="staff_inser" style="display=none" name="exam_insertion">
                             <section class="sec_insert">
-                                <form class="form_insert" action="Admin_pannel.php" method="POST" style="display=none">
-                                      <label class="Ins_staff text-center">Exam Question</label><br><br>
-                                      <label for="exampleFormControlSelect1">Example select</label>
-                                      <select class="form-control" id="Seleter_for_Example" name="Select_Cource">
-                                      <option>1</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
-                                      </select>                     
+                                <form class="form_insert" action="Admin_pannel.php" method="POST" style="display=none">                   
                                       <label for="">Question</label>
                                       <textarea class="form-control" id="Question_insert" name="Question" rows="3"></textarea>
                                      
@@ -146,20 +146,85 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                       <option id="Selecter_4"></option>
                                       </select>
                                                                           
-                                    <input type="submit" class="btn btn-warning form-control"  id="btn_reg"/>
+                                    <input type="submit" class="btn btn-warning form-control"  id="btn_reg" name="exam"/>
                                  </form>
                             </section>
                         </div>
-                       
+                       <section id="Student_insert">
+<table class="table" id="myTable">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Question</th>
+      <th scope="col">Option1</th>
+      <th scope="col">Option2</th>
+      <th scope="col">Option3</th>
+      <th scope="col">Option4</th>
+      <th scope="col">Answers</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  <?php   
+  
+    $sql = "SELECT * FROM `questioncurd` WHERE 1";
+    $result = mysqli_query($conn,$sql) ;
+    $id = 0;
+    while($row = mysqli_fetch_assoc($result)){
+        $id = $id +1;
+        echo "<tr>
+        <th scope='row'>".$id."</th>
+        <td>".$row['Question']."</td>
+        <td>".$row['option1']."</td>
+        <td>".$row['option2']."</td>
+        <td>".$row['option3']."</td>
+        <td>".$row['option4']."</td>
+        <td>".$row['Answer']."</td>
+      </tr>";
+    }  ?>
+  </tbody>
+</table>
+                       </section>
+
+
+<section id="insert_major">
+<form class="form_insert" action="Admin_pannel.php" method="POST" style="display=none">                   
+                                      <label for="">Feild Name</label>
+                                      <textarea class="form-control" id="Question_insert" name="Field" rows="3"></textarea>
+                                     
+                                      
+                                      <label for="">Pincode</label>
+                                      <input class="form-control" id="Pincode" name="option1" >
+                                     
+                                      
+                                      <label for="">Quiz Time</label>
+                                      <input class="form-control" id="QuizTime" name="option2" >
+                                      
+                                      <label for="">Number of Attemps</label>
+                                      <input class="form-control" id="option_4" name="option4" >
+                                     
+                                                 
+                                    <input type="submit" class="btn btn-warning form-control"  id="btn_reg" name="feild_insert"/>
+                                 </form>
+                            </section>
+</section>
                     </div>
                 </div>
             </div>
         </div>
                 <!-- /. ROW  -->
 
+<!-- Insert major -->
 
 
 </body>
+
+<script src="assets2/js/bootstrap.min.js"></script>
+<script src="assets2/js/custom.js"></script>
+<script src="assets2/js/jquery-1.10.2.js"></script>
+<script src="assets2/js/jquery.metisMenu.js"></script>
+
+
 <script>
     function mypop()
 {
@@ -197,6 +262,23 @@ function mypop3(){
   } 
 }
 
+
+function mypop4(){
+    var m = document.getElementById("insert_major");
+    var a = document.getElementById("dashboared");
+    var x = document.getElementById("Student_insert");
+    var y = document.getElementById("staff_inser");
+  if (m.style.display === "none") {
+    m.style.display = "block";
+    a.style.display = "block";
+    x.style.display = "none";
+    x.style.display = "none";
+    y.style.display ="none";
+  } else {
+    m.style.display ="none";
+  } 
+}
+
 function gr()
 {
     var var_for_selecter_1 =  document.getElementById('option_1').value; 
@@ -215,6 +297,8 @@ function gr()
             
     document.getElementById('Selecter_4').innerHTML = var_for_selecter_1; 
 }
+
+
 </script>
 
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -222,12 +306,15 @@ function gr()
 <script src="..\assets\bootstrap\js\bootstrap.min.js"></script>
 <script src="..\cdn\bootstrap.min.js"></script>
 <script src="../js/js.js"></script> -->
+<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
 
-<script src="assets2/js/bootstrap.min.js"></script>
-<script src="assets2/js/custom.js"></script>
-<script src="assets2/js/jquery-1.10.2.js"></script>
-<script src="assets2/js/jquery.metisMenu.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+</script>
 </html>

@@ -20,6 +20,10 @@ body {
     display: none;
 }
 
+#insert_major {
+    display: none;
+}
+
 #Student_insert {
     display: none;
 }
