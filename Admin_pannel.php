@@ -1,7 +1,7 @@
 <!-- 1 -->
 <?php 
 
-// include('function.php');
+//  
     $insert  = false;
     $servername = "localhost";
     $username = "root";
@@ -10,6 +10,8 @@
     $conn = mysqli_connect($servername,$username,$passsword,$database);   
     //check connection
     
+
+
         if($conn == false){
             dir('Error : Connot Connect');
         }
@@ -43,6 +45,17 @@
     
         }
 
+        if(isset($_POST['feild_insert_2'])) {
+            $name = mysql_real_escape_string($_POST['Field']);
+            $sql ="CREATE TABLE `javalogin`.`".$name."` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `Question` VARCHAR(1000) NOT NULL , `option1` VARCHAR(1000) NOT NULL , `option2` VARCHAR(1000) NOT NULL , `option3` VARCHAR(1000) NOT NULL , `option4` VARCHAR(1000) NOT NULL , `Answer` VARCHAR(1000) NOT NULL , PRIMARY KEY (`id`(1))) ENGINE = InnoDB);";
+        
+            $result2 = mysqli_query($conn,$sql); 
+            
+        }
+        
+           
+            
+        
 
 
 ?>
