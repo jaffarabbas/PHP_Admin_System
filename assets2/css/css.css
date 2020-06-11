@@ -16,6 +16,14 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+#dashboard {
+    display: none;
+}
+
+#show_major {
+    display: none;
+}
+
 #staff_inser {
     display: none;
 }
