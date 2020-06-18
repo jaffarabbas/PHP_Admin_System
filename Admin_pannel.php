@@ -1,30 +1,21 @@
 <!-- 1 -->
 <?php 
- 
-   error_reporting(E_ERROR | E_PARSE);
- 
+
+
     $insert  = false;
-    define('DB_SERVER','localhost');
-   define('DB_USERNAME','root');
-   define('DB_PASSWORD','');
-   define('DB_NAME','javalogin');
-   
-   //try connecting to database
-   $conn = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_NAME);
+    $servername = "localhost";
+    $username = "root";
+    $passsword = "";   
+    $database = "javalogin";
+    $conn = mysqli_connect($servername,$username,$passsword,$database);   
     //check connection
     
-
-
         if($conn == false){
             dir('Error : Connot Connect');
         }
-
-
-
         
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-          error_reporting(E_ERROR | E_PARSE);
-            $show = $_POST['Answer2'];
+        
             $Question = $_POST['Question'];
             $Option1 = $_POST['option1'];
             $Option2 = $_POST['option2'];
@@ -32,33 +23,11 @@
             $Option4 = $_POST['option4'];
             $Answer =  $_POST['Answer'];
         
-            $sql = "INSERT INTO  `".$show."` (`Id`, `Question`, `option1`, `option2`, `option3`, `option4`, `Answer`) VALUES (NULL, '$Question', '$Option1', '$Option2', '$Option3', '$Option4', '$Answer');";
+            $sql = "INSERT INTO `questioncurd` (`Id`, `Question`, `option1`, `option2`, `option3`, `option4`, `Answer`) VALUES (NULL, '$Question', '$Option1', '$Option2', '$Option3', '$Option4', '$Answer')";
             
             $result = mysqli_query($conn,$sql); 
     
-        }
-   
-
-     
-
-          if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            error_reporting(E_ERROR | E_PARSE);
-            $Feild = $_POST['Field'];
-            $Pincode = $_POST['Pincode'];
-            $Quiz = $_POST['QuizTime'];
-            $Attemps = $_POST['QuizNoofAttemp'];
-
-        
-            $sql = "INSERT INTO `subjectlist` (`id`, `Field`, `Pincode`, `QuizTime`, `QuizNoofAttemp`) VALUES (NULL, '$Feild', '$Pincode', '$Quiz', ' $Attemps');";
-            
-            $result = mysqli_query($conn,$sql); 
-            // createTable();
-        }
-        
-        error_reporting(E_ERROR | E_PARSE);
-          $sql ="CREATE TABLE `javalogin`.`".$Feild."` ( `id` INT(11) NOT NULL AUTO_INCREMENT ,  `Question` VARCHAR(1000) NOT NULL ,  `option1` VARCHAR(1000) NOT NULL ,  `option2` VARCHAR(1000) NOT NULL ,  `option3` VARCHAR(1000) NOT NULL ,  `option4` VARCHAR(1000) NOT NULL ,  `Answer` VARCHAR(1000) NOT NULL ,    PRIMARY KEY  (`id`(1))) ENGINE = InnoDB"; 
-          $result = mysqli_query($conn,$sql); 
-
+    }
 
 ?>
 <!DOCTYPE html>
@@ -119,9 +88,6 @@
                         <a  onclick="mypop()"><i class="fa fa-users fa-3x"></i>Exam Insertion<span class="fa arrow"></span></a>
                     </li>
                     <li>
-                        <a  onclick="mypop5()"><i class="fa fa-user fa-3x"></i>Major View<span class="fa arrow"></span></a>
-                    </li>
-                    <li>
                         <a  onclick="mypop2()"><i class="fa fa-user fa-3x"></i>Result<span class="fa arrow"></span></a>
                     </li>
                 </ul>
@@ -136,8 +102,7 @@
                         <h2>Admin Dashboard</h2>
                         <h5> Welcome , Love to see you back. </h5>
                        <!-- table show -->
-                       <section class="page_for_dashboared" id="dashboared">
-                       </section>
+                        <section class="page_for_dashboared" id="dashboared">
                         <?php
                         if($result){
                             $insert  = true;
@@ -145,29 +110,14 @@
                                 echo  '<div><h4 style="color : green">Question Inserted !!</h4></div>';
                             }
                         }
-                        // else{
-                        //    error_reporting(E_ERROR | E_PARSE);
-                        //    echo "Error". mysqli_error($conn);
-                        // }
+                        else{
+                           echo "Error". mysqli_error($conn);
+                        }
                         ?>
                         </section>
                         <div class="Insert_main" id="staff_inser" style="display=none" name="exam_insertion">
                             <section class="sec_insert">
-                                <form class="form_insert" action="Admin_pannel.php" method="POST" style="display=none">           
-                                <label for="">Select</label>
-                                      <select  class="form-control" id="" name="Answer2" >
-                                      <?php   
-  
-                                       $sql = "SELECT * FROM `subjectlist` WHERE 1";
-                                       $result = mysqli_query($conn,$sql) ;
-                                       $id = 0;
-                                       while($row = mysqli_fetch_assoc($result)){
-                                           $id = $id +1;
-                                         echo ' <option id="Selecter_3" name="hel">'.$row['Field'].'</option>';
-                                       }  ?>
-                                     
-                                      
-                                      </select>        
+                                <form class="form_insert" action="Admin_pannel.php" method="POST" style="display=none">                   
                                       <label for="">Question</label>
                                       <textarea class="form-control" id="Question_insert" name="Question" rows="3"></textarea>
                                      
@@ -201,7 +151,7 @@
                             </section>
                         </div>
                        <section id="Student_insert">
-                       <table class="table" id="myTable">
+<table class="table" id="myTable">
   <thead>
     <tr>
       <th scope="col">Id</th>
@@ -216,8 +166,8 @@
   <tbody>
 
   <?php   
-    $show2 = $_POST['Answer2'];
-    $sql = "SELECT * FROM `".$show2."` WHERE 1";
+  
+    $sql = "SELECT * FROM `questioncurd` WHERE 1";
     $result = mysqli_query($conn,$sql) ;
     $id = 0;
     while($row = mysqli_fetch_assoc($result)){
@@ -234,59 +184,34 @@
     }  ?>
   </tbody>
 </table>
-</section>   
+                       </section>
+
 
 <section id="insert_major">
-	<form class="form_insert" action="Admin_pannel.php" method="POST" >
-		<label for="">Feild Name</label>
-		<textarea class="form-control" id="Question_insert"  rows="2" name="Field"></textarea>
-		<label for="">Pincode</label>
-		<input class="form-control" id="Pincode"  name="Pincode">
-		<label for="">Quiz Time</label>
-		<input class="form-control" id="QuizTime"  name="QuizTime">
-		<label for="">Number of Attemps</label>
-		<input class="form-control" id="option_4"  name="QuizNoofAttemp">
-        <br>
-		<input type="submit" class="btn btn-warning form-control"  id="btn_reg" name="feild_i"/>
-		</form>
+<form class="form_insert" action="Admin_pannel.php" method="POST" style="display=none">                   
+                                      <label for="">Feild Name</label>
+                                      <textarea class="form-control" id="Question_insert" name="Field" rows="3"></textarea>
+                                     
+                                      
+                                      <label for="">Pincode</label>
+                                      <input class="form-control" id="Pincode" name="option1" >
+                                     
+                                      
+                                      <label for="">Quiz Time</label>
+                                      <input class="form-control" id="QuizTime" name="option2" >
+                                      
+                                      <label for="">Number of Attemps</label>
+                                      <input class="form-control" id="option_4" name="option4" >
+                                     
+                                                 
+                                    <input type="submit" class="btn btn-warning form-control"  id="btn_reg" name="feild_insert"/>
+                                 </form>
+                            </section>
 </section>
-
-
-<section id="show_major">
-<table class="table" id="myTable2">
-  <thead>
-    <tr>
-      <th scope="col">Id</th>
-      <th scope="col">Feild Name</th>
-      <th scope="col">Pincode</th>
-      <th scope="col">Quiz Time</th>
-      <th scope="col">Number of Attemps</th>
-    
-    </tr>
-  </thead>
-  <tbody>
-
-  <?php   
-  
-    $sql = "SELECT * FROM `subjectlist` WHERE 1";
-    $result = mysqli_query($conn,$sql) ;
-    $id = 0;
-    while($row = mysqli_fetch_assoc($result)){
-        $id = $id +1;
-        echo "<tr>
-        <th scope='row'>".$id."</th>
-        <td>".$row['Field']."</td>
-        <td>".$row['Pincode']."</td>
-        <td>".$row['QuizTime']."</td>
-        <td>".$row['QuizNoofAttemp']."</td>
-       
-      </tr>";
-    }  ?>
-  </tbody>
-</table>
-
-</section>
-
+                    </div>
+                </div>
+            </div>
+        </div>
                 <!-- /. ROW  -->
 
 <!-- Insert major -->
@@ -307,7 +232,7 @@
   var y = document.getElementById("Student_insert");
   if (x.style.display === "none") {
     x.style.display = "block";
-    y.style.display = "none"
+    y.style.display = "none";
   } else {
     x.style.display ="none";
   } 
@@ -319,6 +244,7 @@ function mypop2()
   if (x.style.display === "none") {
     x.style.display = "block";
     y.style.display ="none";
+    m.style.display ="none";
   } else {
     x.style.display ="none";
   } 
@@ -328,10 +254,12 @@ function mypop3(){
     var a = document.getElementById("dashboared");
     var x = document.getElementById("Student_insert");
     var y = document.getElementById("staff_inser");
+    var m = document.getElementById("insert_major");
   if (a.style.display === "none") {
     a.style.display = "block";
     x.style.display = "none";
     y.style.display ="none";
+    m.style.display ="none";
   } else {
     a.style.display ="none";
   } 
@@ -345,32 +273,12 @@ function mypop4(){
     var y = document.getElementById("staff_inser");
   if (m.style.display === "none") {
     m.style.display = "block";
-    a.style.display = "none";
+    a.style.display = "block";
     x.style.display = "none";
     x.style.display = "none";
     y.style.display ="none";
   } else {
     m.style.display ="none";
-  } 
-}
-
-
-function mypop5(){
-    var k = document.getElementById("show_major"); 
-    var m = document.getElementById("insert_major");
-    var a = document.getElementById("dashboared");
-    var x = document.getElementById("Student_insert");
-    var y = document.getElementById("staff_inser");
-  if (k.style.display === "none") {
-    
-    k.style.display = "block";
-    m.style.display = "none";
-    a.style.display = "none";
-    x.style.display = "none";
-    x.style.display = "none";
-    y.style.display ="none";
-  } else {
-    k.style.display ="none";
   } 
 }
 
@@ -380,17 +288,17 @@ function gr()
             
     document.getElementById('Selecter_1').innerHTML = var_for_selecter_1; 
 
-    var var_for_selecter_2 =  document.getElementById('option_2').value; 
+    var var_for_selecter_1 =  document.getElementById('option_2').value; 
             
-    document.getElementById('Selecter_2').innerHTML = var_for_selecter_2; 
+    document.getElementById('Selecter_2').innerHTML = var_for_selecter_1; 
 
-    var var_for_selecter_3 =  document.getElementById('option_3').value; 
+    var var_for_selecter_1 =  document.getElementById('option_3').value; 
             
-    document.getElementById('Selecter_3').innerHTML = var_for_selecter_3; 
+    document.getElementById('Selecter_3').innerHTML = var_for_selecter_1; 
 
-    var var_for_selecter_4 =  document.getElementById('option_4').value; 
+    var var_for_selecter_1 =  document.getElementById('option_4').value; 
             
-    document.getElementById('Selecter_4').innerHTML = var_for_selecter_4; 
+    document.getElementById('Selecter_4').innerHTML = var_for_selecter_1; 
 }
 
 
@@ -410,9 +318,6 @@ function gr()
 <script>
 $(document).ready( function () {
     $('#myTable').DataTable();
-} );
-$(document).ready( function () {
-    $('#myTable2').DataTable();
 } );
 </script>
 </html>
